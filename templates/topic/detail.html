@@ -1,0 +1,118 @@
+{% extends "topic/base.html" %}
+{% block title %}{{ topic.title }}{% endblock%}
+{% block main %}
+
+<div class="container">
+    <div class="col-md-10 col-md-offset-1">
+        <h1 class="news-title">{{ topic.title }}</h1>
+        <div class="news-status">
+            <span>{{ topic.views }}阅读</span> •
+            <span>发布于{{ topic.created_time | format_time }}</span> • 来自
+            <div class="label label-default">
+                {% set b = topic.get_board() %}
+                {{ b.title }}
+            </div>
+        </div>
+        <div class="nmd">
+            <div class="news-content">
+                <div class="markdown-text">{{ topic.content}}</div>
+            </div>
+        </div>
+        <h1 class="news-title">评论</h1>
+        <div class="side-bar-card">
+            <div class="card-title">{{ topic.replies() | count }} 回复</div>
+            <div class="card-body">
+                <div class="list">
+                    {% for r in topic.replies() %}
+                    {% set u = r.user() %}
+                    <div class="item xiah">
+                        <div class="title">
+                            <div class="markdown-text">{{ r.content }}</div>
+                        </div>
+                        <div class="desc">
+                            <span class="avatar-pl"><img src="{{ u.image }} "></span>
+                            <span>{{ u.username }}</span> •
+                            <span>{{ loop.index }}楼 / {{ loop.length }}楼</span> •
+                            <span class="right-time" data-created_time="{{ r.created_time }}"></span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+        <h3>添加评论</h3>
+        <div class="sss">
+            <form action="{{ url_for('reply.add') }}" method="post">
+                <div class="form-group">
+                    <input type="hidden" name="topic_id" value="{{ topic.id }}">
+                    <textarea name="content" class="form-control" rows="3"></textarea>
+                </div>
+                <button class="btn btn-primary btn-block">添加回复</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<link href="//cdn.bootcss.com/prism/1.8.0/themes/prism.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/marked/0.3.19/marked.min.js"></script>
+<script src="https://cdn.bootcss.com/prism/1.13.0/prism.js"></script>
+<script src="https://cdn.bootcss.com/prism/1.13.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script>
+    var e = function (sel) {
+        return document.querySelector(sel)
+    }
+
+    var es = function (sel) {
+        return document.querySelectorAll(sel)
+    }
+
+    var markContents = function () {
+        var contentDivs = es('.markdown-text')
+        for (var i = 0; i < contentDivs.length; i++) {
+            var contentDiv = contentDivs[i]
+            console.log('pre marked', contentDiv.textContent)
+            var content = marked(contentDiv.textContent)
+            console.log('after marked', content)
+            contentDiv.innerHTML = content
+        }
+    }
+
+    var highlight = function() {
+        Prism.plugins.autoloader.languages_path = 'https://cdn.bootcss.com/prism/1.13.0/components/'
+    }
+
+    var registerTimer = function () {
+        setInterval(function () {
+            var times = es('.right-time')
+            for (var i = 0; i < times.length; i++) {
+                var t = times[i]
+                var time = Number(t.dataset.created_time)
+                var now = Math.floor(new Date() / 1000)
+                var delta = now - time
+                var s =''
+                if (delta <= 3600) {
+                    s = Math.floor( delta / 60 ) + "分钟前"
+                } else if (delta <= 86400) {
+                    s = Math.floor( delta / 3600 ) + "小时前"
+                } else if (delta > 86400 && delta <= 31536000) {
+                    s = Math.floor( delta / 86400 ) + "天前"
+                } else if (delta > 31536000) {
+                    s = Math.floor( delta / 31536000 ) + "年前"
+                }
+                t.innerText = s
+            }
+        }, 1000)
+    }
+
+    var __main = function () {
+        markContents()
+        highlight()
+        registerTimer()
+    }
+
+    __main()
+
+</script>
+
+{% endblock %}

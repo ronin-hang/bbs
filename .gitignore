@@ -1,0 +1,11 @@
+.idea
+test.log.txt
+*.pyc
+secret.py
+database_secret.conf
+config.py
+Vagrantfile
+mirror.sh
+ubuntu-bionic-18.04-cloudimg-console.log
+.vagrant
+misc

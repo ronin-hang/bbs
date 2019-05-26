@@ -1,0 +1,75 @@
+{% extends "topic/base.html" %}
+{% block title %}个人设置{% endblock %}
+{% block main %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
+                <h1>个人设置</h1>
+            </div>
+            <div class="col-sm-7">
+                <div class="side-bar-card flag clearfix">
+                    <form action="{{ url_for('.update', token=token) }}" method="post">
+                        <div class="form-group">
+                            <label>用户名</label>
+                            <input type="text" class="form-control" value="{{ user.username }}" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label>个人签名</label>
+                            <textarea name="label" class="form-control" rows="3"
+                                      style="resize: none">{{ user.label }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">保存设置</button>
+                        </div>
+                    </form>
+                    {% for v in get_flashed_messages(category_filter=['err']) %}
+                        <p style="color:red;">{{ v }}</p>
+                    {% endfor %}
+                </div>
+                <div class="side-bar-card flag clearfix">
+                    <form action="{{ url_for('.update_pass', token=token) }}" method="post">
+                        <div class="form-group">
+                            <label>当前密码</label>
+                            <input type="password" class="form-control" name="old_pass">
+                        </div>
+                        <div class="form-group">
+                            <label>新密码</label>
+                            <input type="password" class="form-control" name="new_pass">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">更改密码</button>
+                        </div>
+                    </form>
+                    {% for v in get_flashed_messages(category_filter=['err_pass']) %}
+                        <p style="color:red;">{{ v }}</p>
+                    {% endfor %}
+                </div>
+                <div class="side-bar-card flag clearfix">
+                    <h1>更换头像</h1>
+                    <form method="post"
+                          action="{{ url_for('index.avatar_add') }}"
+                          enctype="multipart/form-data">
+                        <input type="file" name="avatar" class="btn btn-primary btn-block">
+                        <button type="submit" class="btn btn-primary btn-block">上传头像</button>
+                    </form>
+                    <img src="{{ user.image }} ">
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="search-bar">
+                    <a class="btn btn-primary form-control" href="/topic/new?board_id={{ bid }}" role="button">发布话题</a>
+                </div>
+                <div class="side-bar-card flag clearfix">
+                    <div class="col-xs-5">
+                        <img src=" {{ user.image }} ">
+                    </div>
+                    <div class="col-xs-7">
+                        <div class="text-lg">{{ user.username }}</div>
+                        <div class="signature">{{ user.label }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

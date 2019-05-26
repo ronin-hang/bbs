@@ -1,0 +1,31 @@
+{% extends "topic/base.html" %}
+{% block title %}发布话题{% endblock %}
+{% block main %}
+
+<div class="container">
+    <div class="col-md-6 col-md-offset-3">
+        <h3>发布话题</h3>
+        <div class="sss">
+            <form id="create_topic_form" action="{{ url_for('.add', token=token) }}" method="post">
+                <div class="form-group">
+                    <textarea name="title" class="form-control" rows="1" placeholder="标题字数 10 字以上"></textarea>
+                </div>
+                <span class="tab-selector">选择版块：</span>
+                <select name="board_id" id="board" required class="form-control">
+                    {% for b in bs %}
+                        {% if bid == b.id %}
+                            <option value="{{ b.id }}" selected>{{ b.title }}</option>
+                        {% else %}
+                            <option value="{{ b.id }}">{{ b.title }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <textarea class='form-control' name='content' rows='20'
+                          placeholder='文章支持 Markdown 语法, 请注意标记代码'></textarea>
+                <button type="submit" class="btn btn-primary btn-block">发布</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

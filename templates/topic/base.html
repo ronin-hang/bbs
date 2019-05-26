@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/bootstraap.min.css">
+    {#    <link rel="stylesheet" href="/static/css/bootstrap.min.css">#}
+    <link rel="stylesheet" href="/static/css/main.css">
+    {#    <link rel="stylesheet" href="/static/css/style.css">#}
+
+</head>
+<body>
+
+<!-- navbar -->
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/topic/" class="navbar-brand"></a>
+        </div>
+        <label id="toggle-label" class="visible-xs-inline-block" for="toggle-checkbox">MENU</label>
+        <input class="hidden" id="toggle-checkbox" type="checkbox">
+        <div class="hidden-xs">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/topic">论坛</a></li>
+                <li><a href="#">博客</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/setting">个人设置</a></li>
+                <li><a href="/mail">消息</a></li>
+                <li><a href="/profile">动态</a></li>
+                <li><a href="/quit">退出</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+{% block main %}
+{% endblock %}
+
+<div class="footer">
+    <a href="https://dev.tencent.com/u/lihanglishiyao1" class="iconfont" style="font-size: 30px">&#xe600;</a>
+    <a href="https://github.com/ronin-hang" class="iconfont" style="font-size: 30px">&#xe64c;</a>
+    <a href="/weixin" class="iconfont" style="font-size: 30px">&#xe66c;</a>
+    <div style="width:300px;margin:0 auto; padding:20px 0;">
+        <p>Copyright © Hang Looose 2019</p>
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41092202000146"
+           style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+            <img src="/images/belan.png" style="float:left;"/>
+            <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">豫公网安备 41092202000146号</p></a>
+    </div>
+</div>
+
+</body>
