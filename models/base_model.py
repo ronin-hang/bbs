@@ -6,10 +6,14 @@ from sqlalchemy import Column, Integer, String
 db = SQLAlchemy()
 
 
+def utctime():
+    return int(time.time())
+
+
 class SQLMixin(object):
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    created_time = Column(Integer, default=int(time.time()))
-    updated_time = Column(Integer, default=int(time.time()))
+    created_time = Column(Integer, default=utctime)
+    updated_time = Column(Integer, default=utctime)
 
     @classmethod
     def new(cls, form):
